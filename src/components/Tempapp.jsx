@@ -10,7 +10,7 @@ export const Tempapp = () => {
       const response = await fetch(url);
       const resJson = await response.json();
       
-      // Check if the response is valid
+      // Check response
       if (resJson.main) {
         setCity(resJson.main);
       } else {
@@ -20,6 +20,13 @@ export const Tempapp = () => {
 
     fetchApi();
   }, [search]);
+
+  //weather icon
+  const getWeatherIcon = () => {
+    if (!city) return null;
+    const tempCelsius = city.temp - 273.15;
+    return tempCelsius >= 25 ? "☀️" : "☁️";
+  };
 
   return (
     <>
@@ -42,7 +49,7 @@ export const Tempapp = () => {
             <h1 className="location">
               <i className="fa-solid fa-street-view"></i> {search}
             </h1>
-            <h2 className="temp">{(city.temp - 273.15).toFixed(2)}°C</h2>
+            <h2 className="temp">{(city.temp - 273.15).toFixed(2)}°C {getWeatherIcon()}</h2>
             <h3 className="tempminmax">
               Min: {(city.temp_min - 273.15).toFixed(2)}°C | Max: {(city.temp_max - 273.15).toFixed(2)}°C
             </h3>
